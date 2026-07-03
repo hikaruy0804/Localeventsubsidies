@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>玄海町地域イベント事業費補助金 QAチェック</title>
+    <style>
+      :root {
+        --bg: #f7f8f6;
+        --surface: #ffffff;
+        --surface-soft: #f1f5f3;
+        --text: #17231f;
+        --muted: #64706b;
+        --line: #dce4df;
+        --accent: #1f6f5b;
+        --accent-dark: #155142;
+        --accent-soft: #e8f2ee;
+        --warn: #8a6400;
+        --danger: #9b3328;
+        --ok: #16633f;
+        --shadow: 0 18px 46px rgba(23, 35, 31, 0.08);
+        --radius: 22px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Hiragino Sans", "Yu Gothic", Meiryo, system-ui, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+
+      button,
+      a {
+        font: inherit;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+
+      .topbar {
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: blur(10px);
+      }
+
+      .topbar-inner {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 18px 0;
+      }
+
+      .kicker {
+        margin: 0 0 4px;
+        color: var(--accent-dark);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.25rem, 4vw, 1.75rem);
+        letter-spacing: -0.02em;
+      }
+
+      .main {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: clamp(28px, 7vh, 64px) 0;
+        display: grid;
+        align-content: center;
+      }
+
+      .focus-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: clamp(22px, 5vw, 38px);
+      }
+
+      .progress-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 22px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .progress-track {
+        height: 7px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: var(--surface-soft);
+        margin-bottom: 28px;
+      }
+
+      .progress-bar {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--accent);
+        transition: width 180ms ease;
+      }
+
+      .step-pill,
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-dark);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .question {
+        margin: 0 0 12px;
+        font-size: clamp(1.55rem, 5vw, 2.2rem);
+        line-height: 1.34;
+        letter-spacing: -0.03em;
+      }
+
+      .help {
+        margin: 0 0 24px;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .options {
+        display: grid;
+        gap: 12px;
+      }
+
+      .option {
+        width: 100%;
+        min-height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: #fff;
+        color: var(--text);
+        padding: 16px 18px;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+      }
+
+      .option:hover,
+      .option:focus-visible {
+        border-color: var(--accent);
+        background: #fbfdfc;
+        transform: translateY(-1px);
+        outline: none;
+      }
+
+      .option::after {
+        content: "→";
+        flex: 0 0 auto;
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .left-actions,
+      .right-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .btn,
+      .link-btn {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding: 10px 15px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn.primary,
+      .link-btn.primary {
+        border: none;
+        background: var(--accent);
+        color: white;
+      }
+
+      .btn.ghost,
+      .link-btn.ghost {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+      }
+
+      .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .result-title {
+        margin: 18px 0 10px;
+        font-size: clamp(1.55rem, 5vw, 2.1rem);
+        line-height: 1.35;
+        letter-spacing: -0.03em;
+      }
+
+      .result-summary {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .result-note {
+        margin-top: 22px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: var(--surface-soft);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .badge.ok {
+        background: #e7f3ec;
+        color: var(--ok);
+      }
+
+      .badge.warn {
+        background: #fff5dc;
+        color: var(--warn);
+      }
+
+      .badge.danger {
+        background: #f8e8e5;
+        color: var(--danger);
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: grid;
+        place-items: center;
+        padding: 18px;
+        background: rgba(23, 35, 31, 0.42);
+      }
+
+      .modal-backdrop[hidden] {
+        display: none;
+      }
+
+      .modal {
+        width: min(680px, 100%);
+        max-height: min(88vh, 820px);
+        overflow: auto;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        padding: clamp(20px, 5vw, 30px);
+      }
+
+      .modal-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .modal h2 {
+        margin: 0 0 8px;
+        font-size: 1.45rem;
+      }
+
+      .modal p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .check-section-title {
+        margin: 0 0 14px;
+        font-size: 1.18rem;
+      }
+
+      .check-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .check-item {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        gap: 10px;
+        align-items: start;
+        padding: 13px 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        color: var(--text);
+        line-height: 1.65;
+      }
+
+      .check-item input {
+        width: 18px;
+        height: 18px;
+        transform: translateY(4px);
+        accent-color: var(--accent);
+      }
+
+      .check-nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .footer {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 18px 0 24px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.6;
+      }
+
+      .toast {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 30;
+        max-width: min(420px, calc(100% - 36px));
+        padding: 13px 15px;
+        border-radius: 14px;
+        background: #17231f;
+        color: white;
+        line-height: 1.55;
+      }
+
+      .toast[hidden] {
+        display: none;
+      }
+
+      @media (max-width: 560px) {
+        .topbar-inner,
+        .main,
+        .footer {
+          width: min(100% - 22px, 760px);
+        }
+
+        .actions,
+        .check-nav {
+          flex-direction: column;
+        }
+
+        .left-actions,
+        .right-actions,
+        .btn,
+        .link-btn {
+          width: 100%;
+        }
+
+        .modal-backdrop {
+          align-items: end;
+          padding: 10px;
+        }
+
+        .modal {
+          max-height: 92vh;
+          border-radius: 22px 22px 0 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <p class="kicker">玄海町地域イベント事業費補助金</p>
+          <h1>QAチェック</h1>
+        </div>
+      </header>
+
+      <main class="main">
+        <section id="screen" class="focus-card" aria-live="polite"></section>
+      </main>
+
+      <footer class="footer">
+        このページは事前整理のための簡易チェックです。最終的な交付可否は審査により決定されます。
+      </footer>
+    </div>
+
+    <div id="check-modal" class="modal-backdrop" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="check-title">
+        <div class="modal-head">
+          <div>
+            <h2 id="check-title"></h2>
+            <p id="check-summary"></p>
+          </div>
+          <button id="close-check" class="btn ghost" type="button">閉じる</button>
+        </div>
+        <div class="progress-row">
+          <span id="check-progress"></span>
+          <span id="check-count"></span>
+        </div>
+        <div class="progress-track">
+          <div id="check-progress-bar" class="progress-bar"></div>
+        </div>
+        <h3 id="check-section-title" class="check-section-title"></h3>
+        <div id="check-list" class="check-list"></div>
+        <div class="check-nav">
+          <button id="check-prev" class="btn ghost" type="button">前へ</button>
+          <button id="check-next" class="btn primary" type="button">次へ</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script>
+      const FORM_LINKS = {
+        consult: "#相談フォームURLを設定",
+        apply: "#申請フォームURLを設定",
+      };
+
+      const TOTAL_STEPS = 12;
+
+      const nodes = {
+        idea: {
+          label: "Q1",
+          text: "イベントの企画はありますか？",
+          help: "具体的な内容が固まっていなくても、近いものを選んでください。",
+          options: [
+            { label: "ある", next: "location" },
+            { label: "まだ具体的ではない", result: "selfCheck" },
+          ],
+        },
+        location: {
+          label: "Q2",
+          text: "そのイベントは玄海町内で開催する予定ですか？",
+          help: "補助対象は、町内で開催するイベントです。",
+          options: [
+            { label: "はい", next: "organizer" },
+            { label: "いいえ", result: "notLikely" },
+            { label: "開催場所が未定", result: "selfCheck" },
+          ],
+        },
+        organizer: {
+          label: "Q3",
+          text: "主催者は、町内の団体または個人ですか？",
+          help: "団体の形がまだ決まっていない場合は、相談に進んでください。",
+          options: [
+            { label: "はい", next: "selfPlanned" },
+            { label: "いいえ", result: "consult" },
+            { label: "分からない・未定", result: "consult" },
+          ],
+        },
+        selfPlanned: {
+          label: "Q4",
+          text: "自主的に企画・実施するイベントですか？",
+          help: "委託事業や依頼事業の場合は注意が必要です。",
+          options: [
+            { label: "はい", next: "purpose" },
+            { label: "いいえ", result: "notLikely" },
+            { label: "判断に迷う", result: "consult" },
+          ],
+        },
+        purpose: {
+          label: "Q5",
+          text: "町内外から人を集め、町のにぎわいづくりにつながるイベントですか？",
+          help: "交流人口の増加につながるかを確認します。",
+          options: [
+            { label: "はい", next: "publicity" },
+            { label: "まだ目的が整理できていない", result: "selfCheck" },
+            { label: "内部向け・会員向けが中心", result: "consult" },
+          ],
+        },
+        publicity: {
+          label: "Q6",
+          text: "イベントの広報を行う予定がありますか？",
+          help: "補助対象事業の主催者は、広報を行う必要があります。",
+          options: [
+            { label: "はい、広報方法も決まっている", next: "schedule" },
+            { label: "予定はあるが方法は未定", result: "publicityCheck" },
+            { label: "広報する予定はない", result: "selfCheck" },
+          ],
+        },
+        schedule: {
+          label: "Q7",
+          text: "イベント開催日は、申請予定日から30日以上先ですか？",
+          help: "申請はイベント開催の30日前までが基本です。",
+          options: [
+            { label: "はい", next: "spent" },
+            { label: "30日未満", result: "urgentConsult" },
+            { label: "開催日が未定", result: "selfCheck" },
+          ],
+        },
+        spent: {
+          label: "Q8",
+          text: "すでに発注・購入・契約した経費はありますか？",
+          help: "交付決定前に発生した経費は補助対象外になる可能性があります。",
+          options: [
+            { label: "ない", next: "expenseType" },
+            { label: "ある", result: "expenseConsult" },
+            { label: "一部あるかもしれない", result: "expenseConsult" },
+          ],
+        },
+        expenseType: {
+          label: "Q9",
+          text: "補助を受けたい経費は、イベント実施に直接必要な経費ですか？",
+          help: "対象外経費が含まれていないか確認します。",
+          options: [
+            { label: "はい", next: "amount" },
+            { label: "直接収益につながる経費が含まれる", result: "expenseReview" },
+            { label: "判断に迷う経費がある", result: "expenseConsult" },
+          ],
+        },
+        amount: {
+          label: "Q10",
+          text: "補助希望額は30万円以内ですか？",
+          help: "補助上限は1回あたり30万円です。",
+          options: [
+            { label: "はい", next: "documents" },
+            { label: "30万円を超える", result: "budgetReview" },
+            { label: "まだ予算を作っていない", result: "budgetCheck" },
+          ],
+        },
+        documents: {
+          label: "Q11",
+          text: "事業計画、広報計画、収支予算は整理できていますか？",
+          help: "申請内容の審査で確認されるポイントです。",
+          options: [
+            { label: "はい", next: "consulted" },
+            { label: "一部できていない", result: "applicationCheck" },
+            { label: "まだほとんどできていない", result: "selfCheck" },
+          ],
+        },
+        consulted: {
+          label: "Q12",
+          text: "申請前の相談は済んでいますか？",
+          help: "この補助金は申請前の相談が必要です。",
+          options: [
+            { label: "はい", result: "apply" },
+            { label: "まだ", result: "consult" },
+            { label: "相談が必要か分からない", result: "consult" },
+          ],
+        },
+      };
+
+      const results = {
+        apply: {
+          title: "申請フォームへ進めます",
+          badge: "申請準備OK",
+          tone: "ok",
+          summary: "申請前相談が済んでいる場合は、申請フォームへ進んでください。",
+          note: "事業計画・広報計画・収支予算の内容を手元に用意してから入力するとスムーズです。",
+          actions: [
+            { label: "申請フォームへ", kind: "apply", primary: true },
+            { label: "申請準備チェック", checklist: "application" },
+          ],
+        },
+        consult: {
+          title: "相談フォームへ進んでください",
+          badge: "確認が必要",
+          tone: "warn",
+          summary: "補助対象になる可能性がありますが、確認が必要な点があります。まずは相談してください。",
+          note: "相談時には、イベント名・開催予定日・場所・目的・広報方法・概算予算を分かる範囲で整理してください。",
+          actions: [
+            { label: "相談フォームへ", kind: "consult", primary: true },
+            { label: "自己チェック", checklist: "self" },
+          ],
+        },
+        urgentConsult: {
+          title: "至急相談してください",
+          badge: "開催日が近い",
+          tone: "danger",
+          summary: "イベント開催まで30日未満です。申請可能かどうか、早めに確認してください。",
+          note: "発注済み経費がある場合は、その内容もあわせて整理してください。",
+          actions: [
+            { label: "相談フォームへ", kind: "consult", primary: true },
+            { label: "申請準備チェック", checklist: "application" },
+          ],
+        },
+        selfCheck: {
+          title: "自己チェックを行いましょう",
+          badge: "企画整理",
+          tone: "warn",
+          summary: "申請や相談に進む前に、企画の目的・場所・広報・予算を整理しましょう。",
+          note: "チェックシートは1項目ずつ表示されます。集中して確認できます。",
+          actions: [
+            { label: "自己チェックを開く", checklist: "self", primary: true },
+            { label: "相談フォームへ", kind: "consult" },
+          ],
+        },
+        publicityCheck: {
+          title: "広報計画を整理しましょう",
+          badge: "広報未整理",
+          tone: "warn",
+          summary: "誰に、いつ、どの媒体で知らせるかを整理してから相談・申請へ進みましょう。",
+          note: "広報の対象と方法が明確になると、事業計画の説明もしやすくなります。",
+          actions: [
+            { label: "広報チェックを開く", checklist: "publicity", primary: true },
+            { label: "相談フォームへ", kind: "consult" },
+          ],
+        },
+        expenseConsult: {
+          title: "経費確認のため相談してください",
+          badge: "経費確認",
+          tone: "warn",
+          summary: "補助対象経費に該当するか確認が必要です。",
+          note: "発注済み経費、食材等、備品費、委託料、人件費、旅費などは特に整理してください。",
+          actions: [
+            { label: "相談フォームへ", kind: "consult", primary: true },
+            { label: "経費チェック", checklist: "expense" },
+          ],
+        },
+        expenseReview: {
+          title: "経費の見直しが必要です",
+          badge: "対象外経費あり",
+          tone: "danger",
+          summary: "直接収益につながる食材等の経費は補助対象外となる可能性があります。",
+          note: "補助対象にしたい経費と、収益に直結する経費を分けて整理しましょう。",
+          actions: [
+            { label: "経費チェックを開く", checklist: "expense", primary: true },
+            { label: "相談フォームへ", kind: "consult" },
+          ],
+        },
+        budgetReview: {
+          title: "予算を見直しましょう",
+          badge: "上限超過",
+          tone: "warn",
+          summary: "補助上限は30万円です。対象経費と自己負担分を分けて整理しましょう。",
+          note: "総事業費が30万円を超えても、対象経費や自己負担分の整理により相談できる場合があります。",
+          actions: [
+            { label: "予算チェックを開く", checklist: "budget", primary: true },
+            { label: "相談フォームへ", kind: "consult" },
+          ],
+        },
+        budgetCheck: {
+          title: "予算作成チェックを行いましょう",
+          badge: "予算未作成",
+          tone: "warn",
+          summary: "収入と支出の見込みを整理しましょう。",
+          note: "事業内容や広報方法に対して、必要な経費として説明できるか確認してください。",
+          actions: [
+            { label: "予算チェックを開く", checklist: "budget", primary: true },
+            { label: "相談フォームへ", kind: "consult" },
+          ],
+        },
+        applicationCheck: {
+          title: "申請準備チェックを行いましょう",
+          badge: "書類準備中",
+          tone: "warn",
+          summary: "事業計画、広報計画、収支予算を整理してから相談・申請へ進みましょう。",
+          note: "未整理の項目だけを確認し、必要に応じて相談フォームへ進んでください。",
+          actions: [
+            { label: "申請準備チェック", checklist: "application", primary: true },
+            { label: "相談フォームへ", kind: "consult" },
+          ],
+        },
+        notLikely: {
+          title: "対象外の可能性が高いです",
+          badge: "要件不一致",
+          tone: "danger",
+          summary: "現在の内容では補助対象にならない可能性があります。企画内容を見直せる場合は相談してください。",
+          note: "このチャートは簡易判定です。判断に迷う場合は、相談フォームから確認してください。",
+          actions: [
+            { label: "相談フォームへ", kind: "consult", primary: true },
+            { label: "最初からやり直す", kind: "reset" },
+          ],
+        },
+      };
+
+      const checklists = {
+        self: {
+          title: "自己チェック",
+          summary: "企画が固まりきっていない場合に確認する項目です。",
+          groups: [
+            { title: "企画内容", items: ["イベント名は決まっている", "開催目的を説明できる", "町のにぎわいづくりにつながる", "町内外から人を集める内容になっている", "開催場所は玄海町内である"] },
+            { title: "広報", items: ["誰に来てほしいか決まっている", "広報に使う媒体を考えている", "いつから告知するか決めている", "チラシ・SNS・Web・掲示などを検討している"] },
+            { title: "予算", items: ["必要経費を書き出している", "補助希望額は30万円以内である", "収入がある場合、その内容を整理している", "交付決定前に発注・購入しないことを確認している"] },
+          ],
+        },
+        publicity: {
+          title: "広報計画チェック",
+          summary: "交流人口増につながる広報かを確認します。",
+          groups: [
+            { title: "広報対象", items: ["誰に来てほしいか明確である", "何人程度の参加を目指すか決めている", "町内向け・町外向けのどちらに広報するか決めている"] },
+            { title: "媒体と時期", items: ["チラシ・ポスターを使う", "SNSやWebで告知する", "関係団体や地域へ案内する", "広報開始時期を決めている"] },
+            { title: "表示", items: ["ポスター・パンフレット等に必要な文言を入れる", "玄海町ロゴマークの使用を確認する"] },
+          ],
+        },
+        expense: {
+          title: "経費チェック",
+          summary: "補助対象経費と対象外経費を分けて整理します。",
+          groups: [
+            { title: "発生時期", items: ["交付決定前に発注・購入・契約していない", "今後発生する経費だけを補助対象として整理している"] },
+            { title: "対象外の可能性", items: ["直接収益につながる食材等を補助対象に入れていない", "申請団体に所属する者の人件費を入れていない", "自家用車・公共交通機関以外の旅費を入れていない"] },
+            { title: "割合制限", items: ["備品費が対象経費の3割を超えない", "委託料が対象経費の7割を超えない"] },
+          ],
+        },
+        budget: {
+          title: "予算チェック",
+          summary: "収入・支出・補助希望額を整理します。",
+          groups: [
+            { title: "支出", items: ["謝金・旅費・消耗品・印刷費などを項目別に整理している", "見積金額や数量を説明できる", "対象外経費を分けている"] },
+            { title: "収入", items: ["参加料・売上・協賛金などの収入予定を整理している", "収入がある場合、どの経費に充てるか説明できる"] },
+            { title: "補助希望額", items: ["補助希望額は30万円以内である", "千円未満の端数を意識している", "自己負担がある場合は金額を整理している"] },
+          ],
+        },
+        application: {
+          title: "申請準備チェック",
+          summary: "申請フォームへ進む前に、審査で確認される項目を整理します。",
+          groups: [
+            { title: "事業計画", items: ["イベントの目的を説明できる", "イベントの概要・内容を説明できる", "町のにぎわい創出との関係を説明できる"] },
+            { title: "広報計画", items: ["誰に対して広報するか決めている", "どの媒体で広報するか決めている", "いつ、どのように広報するか説明できる"] },
+            { title: "収支予算", items: ["事業計画・広報計画と予算が整合している", "数字の誤りがないか確認した", "イベント開催30日前までに提出できる"] },
+          ],
+        },
+      };
+
+      const screen = document.getElementById("screen");
+      const modal = document.getElementById("check-modal");
+      const closeCheck = document.getElementById("close-check");
+      const checkTitle = document.getElementById("check-title");
+      const checkSummary = document.getElementById("check-summary");
+      const checkProgress = document.getElementById("check-progress");
+      const checkCount = document.getElementById("check-count");
+      const checkProgressBar = document.getElementById("check-progress-bar");
+      const checkSectionTitle = document.getElementById("check-section-title");
+      const checkList = document.getElementById("check-list");
+      const checkPrev = document.getElementById("check-prev");
+      const checkNext = document.getElementById("check-next");
+      const toast = document.getElementById("toast");
+
+      const state = {
+        currentNode: "idea",
+        history: [],
+        mode: "question",
+        resultId: null,
+        activeChecklist: null,
+        checklistIndex: 0,
+      };
+
+      function renderQuestion() {
+        state.mode = "question";
+        const node = nodes[state.currentNode];
+        const progress = Math.min(100, Math.round((state.history.length / TOTAL_STEPS) * 100));
+        screen.innerHTML = `
+          <div class="progress-row">
+            <span class="step-pill">${escapeHtml(node.label)}</span>
+            <span>${state.history.length}問回答済み</span>
+          </div>
+          <div class="progress-track"><div class="progress-bar" style="width:${progress}%"></div></div>
+          <h2 class="question">${escapeHtml(node.text)}</h2>
+          <p class="help">${escapeHtml(node.help)}</p>
+          <div class="options">
+            ${node.options.map((option, index) => `<button class="option" type="button" data-index="${index}">${escapeHtml(option.label)}</button>`).join("")}
+          </div>
+          <div class="actions">
+            <div class="left-actions">
+              <button id="back" class="btn ghost" type="button" ${state.history.length === 0 ? "disabled" : ""}>戻る</button>
+              <button id="reset" class="btn ghost" type="button">最初から</button>
+            </div>
+          </div>
+        `;
+
+        screen.querySelectorAll(".option").forEach((button) => {
+          button.addEventListener("click", () => chooseOption(Number(button.dataset.index)));
+        });
+        screen.querySelector("#back").addEventListener("click", goBack);
+        screen.querySelector("#reset").addEventListener("click", resetFlow);
+      }
+
+      function chooseOption(index) {
+        const node = nodes[state.currentNode];
+        const choice = node.options[index];
+        state.history.push({ nodeId: state.currentNode, label: node.label, question: node.text, choice: choice.label });
+
+        if (choice.result) {
+          renderResult(choice.result);
+          return;
+        }
+
+        state.currentNode = choice.next;
+        renderQuestion();
+      }
+
+      function renderResult(resultId) {
+        state.mode = "result";
+        state.resultId = resultId;
+        const result = results[resultId];
+        const progress = Math.min(100, Math.round((state.history.length / TOTAL_STEPS) * 100));
+        screen.innerHTML = `
+          <div class="progress-row">
+            <span class="badge ${result.tone || ""}">${escapeHtml(result.badge)}</span>
+            <span>${state.history.length}問回答</span>
+          </div>
+          <div class="progress-track"><div class="progress-bar" style="width:${progress}%"></div></div>
+          <h2 class="result-title">${escapeHtml(result.title)}</h2>
+          <p class="result-summary">${escapeHtml(result.summary)}</p>
+          <div class="result-note">${escapeHtml(result.note)}</div>
+          <div class="actions">
+            <div class="left-actions">
+              <button id="back" class="btn ghost" type="button">戻る</button>
+              <button id="reset" class="btn ghost" type="button">最初から</button>
+            </div>
+            <div class="right-actions">
+              ${result.actions.map((action, index) => `<button class="btn ${action.primary ? "primary" : "ghost"}" type="button" data-action-index="${index}">${escapeHtml(action.label)}</button>`).join("")}
+            </div>
+          </div>
+        `;
+
+        screen.querySelector("#back").addEventListener("click", goBack);
+        screen.querySelector("#reset").addEventListener("click", resetFlow);
+        screen.querySelectorAll("[data-action-index]").forEach((button) => {
+          button.addEventListener("click", () => handleAction(result.actions[Number(button.dataset.actionIndex)]));
+        });
+      }
+
+      function handleAction(action) {
+        if (action.checklist) {
+          openChecklist(action.checklist);
+          return;
+        }
+        if (action.kind === "consult") {
+          window.location.href = FORM_LINKS.consult;
+          return;
+        }
+        if (action.kind === "apply") {
+          window.location.href = FORM_LINKS.apply;
+          return;
+        }
+        if (action.kind === "reset") {
+          resetFlow();
+        }
+      }
+
+      function goBack() {
+        if (state.history.length === 0) return;
+        const last = state.history.pop();
+        state.currentNode = last.nodeId;
+        renderQuestion();
+      }
+
+      function resetFlow() {
+        state.currentNode = "idea";
+        state.history = [];
+        state.mode = "question";
+        state.resultId = null;
+        closeChecklist();
+        renderQuestion();
+      }
+
+      function openChecklist(kind) {
+        state.activeChecklist = kind;
+        state.checklistIndex = 0;
+        modal.hidden = false;
+        renderChecklist();
+      }
+
+      function renderChecklist() {
+        const data = checklists[state.activeChecklist] || checklists.self;
+        const index = state.checklistIndex;
+        const group = data.groups[index];
+        const progress = Math.round(((index + 1) / data.groups.length) * 100);
+
+        checkTitle.textContent = data.title;
+        checkSummary.textContent = data.summary;
+        checkProgress.textContent = `チェック ${index + 1} / ${data.groups.length}`;
+        checkCount.textContent = `${progress}%`;
+        checkProgressBar.style.width = `${progress}%`;
+        checkSectionTitle.textContent = group.title;
+        checkList.innerHTML = group.items.map((item, itemIndex) => {
+          const id = `check-${state.activeChecklist}-${index}-${itemIndex}`;
+          return `<label class="check-item" for="${id}"><input id="${id}" type="checkbox" /><span>${escapeHtml(item)}</span></label>`;
+        }).join("");
+
+        checkPrev.disabled = index === 0;
+        checkNext.textContent = index === data.groups.length - 1 ? "完了" : "次へ";
+      }
+
+      function closeChecklist() {
+        modal.hidden = true;
+      }
+
+      function nextChecklist() {
+        const data = checklists[state.activeChecklist] || checklists.self;
+        if (state.checklistIndex < data.groups.length - 1) {
+          state.checklistIndex += 1;
+          renderChecklist();
+        } else {
+          closeChecklist();
+          showToast("チェックが完了しました。必要に応じて相談フォームへ進んでください。");
+        }
+      }
+
+      function prevChecklist() {
+        if (state.checklistIndex > 0) {
+          state.checklistIndex -= 1;
+          renderChecklist();
+        }
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.hidden = false;
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => { toast.hidden = true; }, 3000);
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      closeCheck.addEventListener("click", closeChecklist);
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeChecklist();
+      });
+      checkNext.addEventListener("click", nextChecklist);
+      checkPrev.addEventListener("click", prevChecklist);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeChecklist();
+      });
+
+      renderQuestion();
+    </script>
+  </body>
+</html>
