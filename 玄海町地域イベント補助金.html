@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>玄海町地域イベント事業費補助金 QAチェック</title>
+    <title>玄海町地域イベント事業費補助金 申請前チェック</title>
     <style>
       :root {
         --bg: #f7f8f6;
@@ -401,7 +401,7 @@
       <header class="topbar">
         <div class="topbar-inner">
           <p class="kicker">玄海町地域イベント事業費補助金</p>
-          <h1>QAチェック</h1>
+          <h1>申請前チェック</h1>
         </div>
       </header>
 
@@ -410,7 +410,7 @@
       </main>
 
       <footer class="footer">
-        このページは事前整理のための簡易チェックです。最終的な交付可否は審査により決定されます。
+        このページは、事前整理のための簡易チェックです。最終的な交付可否は審査により決定されます。
       </footer>
     </div>
 
@@ -491,7 +491,7 @@
         },
         purpose: {
           label: "Q5",
-          text: "町内外から人を集め、町のにぎわいづくりにつながるイベントですか？",
+          text: "町内外からの来場が見込まれ、町のにぎわいづくりにつながるイベントですか？",
           help: "交流人口の増加につながるかを確認します。",
           options: [
             { label: "はい", next: "publicity" },
@@ -502,7 +502,7 @@
         publicity: {
           label: "Q6",
           text: "イベントの広報を行う予定がありますか？",
-          help: "補助対象事業の主催者は、広報を行う必要があります。",
+          help: "補助対象となるには、主催者が広報を行う必要があります。",
           options: [
             { label: "はい、広報方法も決まっている", next: "schedule" },
             { label: "予定はあるが方法は未定", result: "publicityCheck" },
@@ -512,7 +512,7 @@
         schedule: {
           label: "Q7",
           text: "イベント開催日は、申請予定日から30日以上先ですか？",
-          help: "申請はイベント開催の30日前までが基本です。",
+          help: "申請は、イベント開催日の30日前までに行う必要があります。",
           options: [
             { label: "はい", next: "spent" },
             { label: "30日未満", result: "urgentConsult" },
@@ -535,7 +535,7 @@
           help: "対象外経費が含まれていないか確認します。",
           options: [
             { label: "はい", next: "amount" },
-            { label: "直接収益につながる経費が含まれる", result: "expenseReview" },
+            { label: "売上に直接つながる経費が含まれる", result: "expenseReview" },
             { label: "判断に迷う経費がある", result: "expenseConsult" },
           ],
         },
@@ -632,7 +632,7 @@
           badge: "経費確認",
           tone: "warn",
           summary: "補助対象経費に該当するか確認が必要です。",
-          note: "発注済み経費、食材等、備品費、委託料、人件費、旅費などは特に整理してください。",
+          note: "発注済み経費、食材等、備品費、委託料、人件費、旅費などは、特に整理してください。",
           actions: [
             { label: "相談フォームへ", kind: "consult", primary: true },
             { label: "経費チェック", checklist: "expense" },
@@ -642,8 +642,8 @@
           title: "経費の見直しが必要です",
           badge: "対象外経費あり",
           tone: "danger",
-          summary: "直接収益につながる食材等の経費は補助対象外となる可能性があります。",
-          note: "補助対象にしたい経費と、収益に直結する経費を分けて整理しましょう。",
+          summary: "売上に直接つながる食材等の経費は、補助対象外となる可能性があります。",
+          note: "補助対象にしたい経費と、売上に直結する経費を分けて整理しましょう。",
           actions: [
             { label: "経費チェックを開く", checklist: "expense", primary: true },
             { label: "相談フォームへ", kind: "consult" },
@@ -700,7 +700,7 @@
           title: "自己チェック",
           summary: "企画が固まりきっていない場合に確認する項目です。",
           groups: [
-            { title: "企画内容", items: ["イベント名は決まっている", "開催目的を説明できる", "町のにぎわいづくりにつながる", "町内外から人を集める内容になっている", "開催場所は玄海町内である"] },
+            { title: "企画内容", items: ["イベント名は決まっている", "開催目的を説明できる", "町のにぎわいづくりにつながる", "町内外からの来場が見込まれる内容になっている", "開催場所は玄海町内である"] },
             { title: "広報", items: ["誰に来てほしいか決まっている", "広報に使う媒体を考えている", "いつから告知するか決めている", "チラシ・SNS・Web・掲示などを検討している"] },
             { title: "予算", items: ["必要経費を書き出している", "補助希望額は30万円以内である", "収入がある場合、その内容を整理している", "交付決定前に発注・購入しないことを確認している"] },
           ],
@@ -719,8 +719,8 @@
           summary: "補助対象経費と対象外経費を分けて整理します。",
           groups: [
             { title: "発生時期", items: ["交付決定前に発注・購入・契約していない", "今後発生する経費だけを補助対象として整理している"] },
-            { title: "対象外の可能性", items: ["直接収益につながる食材等を補助対象に入れていない", "申請団体に所属する者の人件費を入れていない", "自家用車・公共交通機関以外の旅費を入れていない"] },
-            { title: "割合制限", items: ["備品費が対象経費の3割を超えない", "委託料が対象経費の7割を超えない"] },
+            { title: "対象外の可能性", items: ["売上に直接つながる食材等を補助対象に入れていない", "申請団体に所属する者の人件費を入れていない", "自家用車・公共交通機関以外の旅費を入れていない"] },
+            { title: "割合制限", items: ["備品費が補助対象経費の3割を超えない", "委託料が補助対象経費の7割を超えない"] },
           ],
         },
         budget: {
@@ -729,7 +729,7 @@
           groups: [
             { title: "支出", items: ["謝金・旅費・消耗品・印刷費などを項目別に整理している", "見積金額や数量を説明できる", "対象外経費を分けている"] },
             { title: "収入", items: ["参加料・売上・協賛金などの収入予定を整理している", "収入がある場合、どの経費に充てるか説明できる"] },
-            { title: "補助希望額", items: ["補助希望額は30万円以内である", "千円未満の端数を意識している", "自己負担がある場合は金額を整理している"] },
+            { title: "補助希望額", items: ["補助希望額は30万円以内である", "補助希望額に千円未満の端数がない", "自己負担がある場合は金額を整理している"] },
           ],
         },
         application: {
@@ -764,7 +764,9 @@
         resultId: null,
         activeChecklist: null,
         checklistIndex: 0,
+        checklistChecks: {},
       };
+      let lastFocusedElement = null;
 
       function renderQuestion() {
         state.mode = "question";
@@ -848,11 +850,11 @@
           return;
         }
         if (action.kind === "consult") {
-          window.location.href = FORM_LINKS.consult;
+          openFormLink(FORM_LINKS.consult, "相談フォームURLが未設定です。FORM_LINKS.consultにURLを設定してください。");
           return;
         }
         if (action.kind === "apply") {
-          window.location.href = FORM_LINKS.apply;
+          openFormLink(FORM_LINKS.apply, "申請フォームURLが未設定です。FORM_LINKS.applyにURLを設定してください。");
           return;
         }
         if (action.kind === "reset") {
@@ -872,15 +874,19 @@
         state.history = [];
         state.mode = "question";
         state.resultId = null;
+        state.checklistChecks = {};
         closeChecklist();
         renderQuestion();
       }
 
       function openChecklist(kind) {
+        lastFocusedElement = document.activeElement;
         state.activeChecklist = kind;
         state.checklistIndex = 0;
+        if (!state.checklistChecks[kind]) state.checklistChecks[kind] = {};
         modal.hidden = false;
         renderChecklist();
+        closeCheck.focus();
       }
 
       function renderChecklist() {
@@ -897,15 +903,33 @@
         checkSectionTitle.textContent = group.title;
         checkList.innerHTML = group.items.map((item, itemIndex) => {
           const id = `check-${state.activeChecklist}-${index}-${itemIndex}`;
-          return `<label class="check-item" for="${id}"><input id="${id}" type="checkbox" /><span>${escapeHtml(item)}</span></label>`;
+          const checked = state.checklistChecks[state.activeChecklist]?.[index]?.[itemIndex] ? "checked" : "";
+          return `<label class="check-item" for="${id}"><input id="${id}" type="checkbox" data-item-index="${itemIndex}" ${checked} /><span>${escapeHtml(item)}</span></label>`;
         }).join("");
+        checkList.querySelectorAll("input").forEach((input) => {
+          input.addEventListener("change", saveChecklistState);
+        });
 
         checkPrev.disabled = index === 0;
         checkNext.textContent = index === data.groups.length - 1 ? "完了" : "次へ";
       }
 
       function closeChecklist() {
+        if (modal.hidden) return;
         modal.hidden = true;
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+          lastFocusedElement.focus();
+        }
+        lastFocusedElement = null;
+      }
+
+      function saveChecklistState(event) {
+        const kind = state.activeChecklist;
+        const index = state.checklistIndex;
+        const itemIndex = Number(event.target.dataset.itemIndex);
+        if (!state.checklistChecks[kind]) state.checklistChecks[kind] = {};
+        if (!state.checklistChecks[kind][index]) state.checklistChecks[kind][index] = {};
+        state.checklistChecks[kind][index][itemIndex] = event.target.checked;
       }
 
       function nextChecklist() {
@@ -933,6 +957,14 @@
         showToast.timer = window.setTimeout(() => { toast.hidden = true; }, 3000);
       }
 
+      function openFormLink(url, missingMessage) {
+        if (!url || url.startsWith("#")) {
+          showToast(missingMessage);
+          return;
+        }
+        window.location.href = url;
+      }
+
       function escapeHtml(value) {
         return String(value)
           .replace(/&/g, "&amp;")
@@ -949,7 +981,7 @@
       checkNext.addEventListener("click", nextChecklist);
       checkPrev.addEventListener("click", prevChecklist);
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeChecklist();
+        if (event.key === "Escape" && !modal.hidden) closeChecklist();
       });
 
       renderQuestion();
